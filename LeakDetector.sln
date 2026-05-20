@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.CLI", "src\Lea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Tests", "src\LeakDetector.Tests\LeakDetector.Tests.csproj", "{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{28DC644E-5E8C-4C8C-88DE-748DAC248669}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
