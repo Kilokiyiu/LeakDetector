@@ -94,3 +94,6 @@ desktop.ini
 ## LeakDetector specific output
 report/
 output/
+
+#WorkBuddy
+.workbuddy/
