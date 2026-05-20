@@ -86,5 +86,34 @@
 
 ---
 
-## 4.
+## 4. C++ 内存泄漏的本质
+
+### 4.1 泄漏的定义
+<!-- TODO: 什么是内存泄漏？分配了内存但从未释放，且程序已无法再访问到该指针 -->
+
+### 4.2 泄漏的分类（对标 Valgrind mc_leakcheck.c 的 9 种 case）
+<!-- TODO:
+- Definitely Lost：没有任何指针指向该内存块
+- Indirectly Lost：指向该内存块的指针本身也在泄漏内存中
+- Possibly Lost：只有内部指针指向该块（而非起始地址）
+- Still Reachable：程序退出时仍有指针指向（通常可忽略）
+-->
+
+### 4.3 C++ 中常见的泄漏场景
+<!-- TODO:
+1. new 了忘记 delete
+2. new[] 却用 delete（而非 delete[]）
+3. 异常抛出导致 delete 未执行
+4. 智能指针循环引用
+5. 析构函数中未释放成员指针
+-->
+
+### 4.4 new/delete 的各种变体
+<!-- TODO:
+- operator new / operator delete
+- new[] / delete[]
+- placement new
+- new(std::nothrow)
+- 自定义 operator new
+-->
 
