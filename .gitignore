@@ -1,0 +1,96 @@
+# .NET
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+
+## NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*/
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+## ASP.NET Scaffolding
+## MSBuild and MSBuild-related files
+## Trackable target files
+*.telerik厌世.log
+
+## IDE - Rider
+.idea/
+*.sln.iml
+*.rider.iml
+
+## IDE - VS Code
+.vscode/
+
+## Other IDEs
+*.swp
+*.swo
+*~
+
+## Test Results and Coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+TestResults/
+coverage*.json
+coverage*.xml
+*.coverage
+*.coveragexml
+
+## Memory Dump / Crash Dumps
+*.dmp
+*.hdmp
+*.mdmp
+*.rpt
+
+## C++ build artifacts (for future use)
+# [Aa][Rr][Mm]/
+# [Bb]in/   # Already covered by .NET [Bb]in/
+# [Oo]bj/   # Already covered by .NET [Oo]bj/
+
+## CMake
+CMakeLists.txt.user
+cmake-build-*/
+
+## OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+## Misc
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+
+## LeakDetector specific output
+report/
+output/

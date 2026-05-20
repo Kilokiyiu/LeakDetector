@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5D134D6F-D131-4265-BACA-6029E1A2836A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{68964085-3487-4622-B150-FF30F0F1B0AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Core", "src\LeakDetector.Core\LeakDetector.Core.csproj", "{B99E0F6C-52BF-495E-9E32-E692DB5A375F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Parsers", "src\LeakDetector.Parsers\LeakDetector.Parsers.csproj", "{CC2A06DC-4978-420E-9B8C-73A990A24FD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Analyzers", "src\LeakDetector.Analyzers\LeakDetector.Analyzers.csproj", "{D0544911-7AEB-436E-A060-EE8118B8F41D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Reporters", "src\LeakDetector.Reporters\LeakDetector.Reporters.csproj", "{4A68D171-741B-4E72-92B7-FF2887CA5A41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.CLI", "src\LeakDetector.CLI\LeakDetector.CLI.csproj", "{125AEBED-3F53-46D9-81F7-96499624D363}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Tests", "src\LeakDetector.Tests\LeakDetector.Tests.csproj", "{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B99E0F6C-52BF-495E-9E32-E692DB5A375F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B99E0F6C-52BF-495E-9E32-E692DB5A375F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B99E0F6C-52BF-495E-9E32-E692DB5A375F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B99E0F6C-52BF-495E-9E32-E692DB5A375F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2A06DC-4978-420E-9B8C-73A990A24FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2A06DC-4978-420E-9B8C-73A990A24FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2A06DC-4978-420E-9B8C-73A990A24FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2A06DC-4978-420E-9B8C-73A990A24FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0544911-7AEB-436E-A060-EE8118B8F41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0544911-7AEB-436E-A060-EE8118B8F41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0544911-7AEB-436E-A060-EE8118B8F41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0544911-7AEB-436E-A060-EE8118B8F41D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A68D171-741B-4E72-92B7-FF2887CA5A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A68D171-741B-4E72-92B7-FF2887CA5A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A68D171-741B-4E72-92B7-FF2887CA5A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A68D171-741B-4E72-92B7-FF2887CA5A41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{125AEBED-3F53-46D9-81F7-96499624D363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125AEBED-3F53-46D9-81F7-96499624D363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125AEBED-3F53-46D9-81F7-96499624D363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125AEBED-3F53-46D9-81F7-96499624D363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B99E0F6C-52BF-495E-9E32-E692DB5A375F} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{CC2A06DC-4978-420E-9B8C-73A990A24FD3} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{D0544911-7AEB-436E-A060-EE8118B8F41D} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{4A68D171-741B-4E72-92B7-FF2887CA5A41} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{125AEBED-3F53-46D9-81F7-96499624D363} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+	EndGlobalSection
+EndGlobal
