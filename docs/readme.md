@@ -1,36 +1,44 @@
-# 学习用文档
+# LeakDetector 项目文档
 
-个人学习 Valgrind、Memcheck、C++ 内存检测相关内容的笔记与规划，**不属于项目正式文档**。
+面向 C/C++ 的内存泄漏检测工具（参考 Valgrind Memcheck），后端使用 C#（.NET 10），通过宏替换拦截 `new`/`delete` 并分析分配记录。
 
-项目正式文档见：[LeakDetector/docs/README.md](../LeakDetector/docs/README.md)
+**学习笔记**（§1–§4 内存/GC/影子内存等）见：[学习用/学习笔记.md](../../学习用/学习笔记.md)  
+**学习文档索引**：[学习用/README.md](../../学习用/README.md)
 
 ---
 
-## 文档索引
+## 项目结构
 
-| 文档 | 说明 |
+```
+LeakDetector/
+├── include/                 # C++ 注入头文件（leak_detector.h）
+├── examples/                # C++ 测试示例
+├── src/
+│   ├── LeakDetector.Core/
+│   ├── LeakDetector.Parsers/
+│   ├── LeakDetector.Analyzers/
+│   ├── LeakDetector.Reporters/
+│   ├── LeakDetector.CLI/
+│   └── LeakDetector.Tests/
+└── docs/                    # 本目录：项目正式文档
+```
+
+---
+
+## 构建
+
+```bash
+cd LeakDetector
+dotnet build LeakDetector.sln
+dotnet test
+```
+
+---
+
+## 文档分工
+
+| 位置 | 用途 |
 |------|------|
-| [readme.md](readme.md) | 学习笔记：内存基础、GC、影子内存、C++ 泄漏（§1–§4） |
-| [mc_include.md](mc_include.md) | Valgrind 堆追踪模块（MC_Chunk、RedZone 等） |
-| [learning-and-development-plan.md](learning-and-development-plan.md) | 学习与开发概要规划 |
-| [detailed-roadmap.md](detailed-roadmap.md) | 详细开发路线（分阶段、验收标准） |
-
-### 实现规格（学习/练手用）
-
-| 文档 | 说明 |
-|------|------|
-| [spec/v0.1-leak-detector-h.md](spec/v0.1-leak-detector-h.md) | `include/leak_detector.h` v0.1 规格 |
-| [spec/example-01-simple-leak.md](spec/example-01-simple-leak.md) | 首个 C++ 示例规格 |
-
-### Valgrind 源码
-
-| 路径 | 说明 |
-|------|------|
-| [valgrind/](valgrind/) | 克隆的 Valgrind 源码 |
-| [valgrind/memcheck/学习记录/](valgrind/memcheck/学习记录/) | 按文件整理的精读笔记 |
-
-### 其他参考
-
-| 路径 | 说明 |
-|------|------|
-| [../开发方案/内存泄漏检测工具方案.md](../开发方案/内存泄漏检测工具方案.md) | 早期开发方案（宏替换 MVP） |
+| `LeakDetector/docs/` | 项目说明、架构、构建与使用 |
+| `学习用/学习笔记.md` | 个人学习笔记（原 `docs/readme.md`） |
+| `学习用/` | 规划、练手规格、Valgrind 精读 |
