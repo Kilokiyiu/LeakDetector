@@ -2,8 +2,6 @@
 
 面向 C/C++ 的内存泄漏检测工具（参考 Valgrind Memcheck），后端使用 C#（.NET 10），通过宏替换拦截 `new`/`delete` 并分析分配记录。
 
-**学习笔记**（§1–§4 内存/GC/影子内存等）见：[学习用/学习笔记.md](../../学习用/学习笔记.md)  
-**学习文档索引**：[学习用/README.md](../../学习用/README.md)
 
 ---
 
@@ -32,6 +30,10 @@ cd LeakDetector
 dotnet build LeakDetector.sln
 dotnet test
 ```
+
+### C++ 注入头文件 `leak_detector.h`
+
+v0.1 在目标 C++ 程序中拦截 `new`/`delete`，维护分配表并在 `ReportLeaks()` 时报告泄漏。作用说明与实现规格见 [学习用/spec/v0.1-leak-detector-h.md](../../学习用/spec/v0.1-leak-detector-h.md)。
 
 ---
 
