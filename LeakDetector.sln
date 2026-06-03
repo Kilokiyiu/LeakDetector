@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5D134D6F-D131-4265-BACA-6029E1A2836A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{68964085-3487-4622-B150-FF30F0F1B0AD}"
+	ProjectSection(SolutionItems) = preProject
+		include\leak_detector.h = include\leak_detector.h
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Core", "src\LeakDetector.Core\LeakDetector.Core.csproj", "{B99E0F6C-52BF-495E-9E32-E692DB5A375F}"
 EndProject
@@ -20,7 +23,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{28DC644E-5
 	ProjectSection(SolutionItems) = preProject
 		docs\readme.md = docs\readme.md
 		docs\mc_include.md = docs\mc_include.md
-		docs\learning-and-development-plan.md = docs\learning-and-development-plan.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{940753BC-4E9F-4D56-8E05-C2EE912411DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simple_leak", "simple_leak", "{CB185A53-A209-4D51-AE91-A04F1FB0F47E}"
+	ProjectSection(SolutionItems) = preProject
+		examples\simple_leak\main.cpp = examples\simple_leak\main.cpp
+		examples\simple_leak\CMakeLists.txt = examples\simple_leak\CMakeLists.txt
+		examples\simple_leak\build.bat = examples\simple_leak\build.bat
+		examples\simple_leak\README.md = examples\simple_leak\README.md
+		examples\simple_leak\expected_output.txt = examples\simple_leak\expected_output.txt
+		examples\simple_leak\valgrind_reference.txt = examples\simple_leak\valgrind_reference.txt
 	EndProjectSection
 EndProject
 Global
@@ -61,5 +75,6 @@ Global
 		{4A68D171-741B-4E72-92B7-FF2887CA5A41} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
 		{125AEBED-3F53-46D9-81F7-96499624D363} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
 		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
+		{CB185A53-A209-4D51-AE91-A04F1FB0F47E} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
 	EndGlobalSection
 EndGlobal
