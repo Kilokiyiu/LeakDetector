@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{68964085-3487-4622-B150-FF30F0F1B0AD}"
 	ProjectSection(SolutionItems) = preProject
 		include\leak_detector.h = include\leak_detector.h
+		include\leak_detector.cpp = include\leak_detector.cpp
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeakDetector.Core", "src\LeakDetector.Core\LeakDetector.Core.csproj", "{B99E0F6C-52BF-495E-9E32-E692DB5A375F}"
@@ -32,9 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simple_leak", "simple_leak"
 		examples\simple_leak\main.cpp = examples\simple_leak\main.cpp
 		examples\simple_leak\CMakeLists.txt = examples\simple_leak\CMakeLists.txt
 		examples\simple_leak\build.bat = examples\simple_leak\build.bat
-		examples\simple_leak\README.md = examples\simple_leak\README.md
 		examples\simple_leak\expected_output.txt = examples\simple_leak\expected_output.txt
-		examples\simple_leak\valgrind_reference.txt = examples\simple_leak\valgrind_reference.txt
+		examples\simple_leak\build.ps1 = examples\simple_leak\build.ps1
+		examples\simple_leak\out.txt = examples\simple_leak\out.txt
 	EndProjectSection
 EndProject
 Global
