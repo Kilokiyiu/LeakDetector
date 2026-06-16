@@ -1,0 +1,5 @@
+sum = 6
+[LeakDetector] FOUND 3 LEAK(S):
+  LEAK: 4 bytes at <PTR>  [main.cpp:6]
+  LEAK: 4 bytes at <PTR>  [main.cpp:7]
+  LEAK: 4 bytes at <PTR>  [main.cpp:8]

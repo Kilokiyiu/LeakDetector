@@ -11,8 +11,8 @@ struct AllocRecord {
     bool        isArray;
 };
 
-void leak_detector_record_alloc(void* ptr, std::size_t size, const char* file, int line, bool isArray);
-void leak_detector_record_free(void* ptr) noexcept;
+void leak_detector_record_alloc(void* ptr, std::size_t size, const char* file, int line, bool isArray); //记录一次内存分配
+void leak_detector_record_free(void* ptr) noexcept; //记录一次内存释放
 
 void* operator new(std::size_t size, const char* file, int line);
 void* operator new[](std::size_t size, const char* file, int line);

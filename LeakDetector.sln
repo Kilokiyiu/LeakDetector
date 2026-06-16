@@ -34,8 +34,44 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simple_leak", "simple_leak"
 		examples\simple_leak\CMakeLists.txt = examples\simple_leak\CMakeLists.txt
 		examples\simple_leak\build.bat = examples\simple_leak\build.bat
 		examples\simple_leak\expected_output.txt = examples\simple_leak\expected_output.txt
-		examples\simple_leak\build.ps1 = examples\simple_leak\build.ps1
-		examples\simple_leak\out.txt = examples\simple_leak\out.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "no_leak", "no_leak", "{79D9FA21-2DA3-49F2-A098-7BF99B94BDA2}"
+	ProjectSection(SolutionItems) = preProject
+		examples\no_leak\main.cpp = examples\no_leak\main.cpp
+		examples\no_leak\CMakeLists.txt = examples\no_leak\CMakeLists.txt
+		examples\no_leak\build.ps1 = examples\no_leak\build.ps1
+		examples\no_leak\build.bat = examples\no_leak\build.bat
+		examples\no_leak\expected_output.txt = examples\no_leak\expected_output.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "array_leak", "array_leak", "{C3FB9F73-B2AD-40D6-A318-503BF52D2F43}"
+	ProjectSection(SolutionItems) = preProject
+		examples\array_leak\build.bat = examples\array_leak\build.bat
+		examples\array_leak\build.ps1 = examples\array_leak\build.ps1
+		examples\array_leak\CMakeLists.txt = examples\array_leak\CMakeLists.txt
+		examples\array_leak\expected_output.txt = examples\array_leak\expected_output.txt
+		examples\array_leak\main.cpp = examples\array_leak\main.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "exception_leak", "exception_leak", "{17DD921B-7326-44F8-8899-CAAE76B7AA8C}"
+	ProjectSection(SolutionItems) = preProject
+		examples\exception_leak\build.bat = examples\exception_leak\build.bat
+		examples\exception_leak\build.ps1 = examples\exception_leak\build.ps1
+		examples\exception_leak\CMakeLists.txt = examples\exception_leak\CMakeLists.txt
+		examples\exception_leak\expected_output.txt = examples\exception_leak\expected_output.txt
+		examples\exception_leak\main.cpp = examples\exception_leak\main.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "double_delete", "double_delete", "{688B97A4-3D38-4F92-92DB-7B35526E0E4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "multi_leak", "multi_leak", "{D290E648-4872-4FE1-A323-57FA83E9A731}"
+	ProjectSection(SolutionItems) = preProject
+		examples\multi_leak\build.bat = examples\multi_leak\build.bat
+		examples\multi_leak\build.ps1 = examples\multi_leak\build.ps1
+		examples\multi_leak\CMakeLists.txt = examples\multi_leak\CMakeLists.txt
+		examples\multi_leak\expected_output.txt = examples\multi_leak\expected_output.txt
+		examples\multi_leak\main.cpp = examples\multi_leak\main.cpp
 	EndProjectSection
 EndProject
 Global
@@ -77,5 +113,10 @@ Global
 		{125AEBED-3F53-46D9-81F7-96499624D363} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
 		{858A9D6C-AC88-4A35-BDC9-0F16E64DF9D9} = {5D134D6F-D131-4265-BACA-6029E1A2836A}
 		{CB185A53-A209-4D51-AE91-A04F1FB0F47E} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
+		{79D9FA21-2DA3-49F2-A098-7BF99B94BDA2} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
+		{C3FB9F73-B2AD-40D6-A318-503BF52D2F43} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
+		{17DD921B-7326-44F8-8899-CAAE76B7AA8C} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
+		{688B97A4-3D38-4F92-92DB-7B35526E0E4A} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
+		{D290E648-4872-4FE1-A323-57FA83E9A731} = {940753BC-4E9F-4D56-8E05-C2EE912411DB}
 	EndGlobalSection
 EndGlobal

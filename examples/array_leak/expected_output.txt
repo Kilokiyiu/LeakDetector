@@ -1,0 +1,3 @@
+value = 42
+[LeakDetector] FOUND 1 LEAK(S):
+  LEAK: 40 bytes at <PTR>  [main.cpp:7] [array]

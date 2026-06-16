@@ -1,2 +1,3 @@
 value = 42
-[LeakDetector] No leaks detected.
+[LeakDetector] FOUND 1 LEAK(S):
+  LEAK: 4 bytes at <PTR>  [main.cpp:7]
