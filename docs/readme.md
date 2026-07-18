@@ -23,8 +23,8 @@
 
 | 模块 | 状态 |
 |------|------|
-| C++ JSONL 写入（`alloc` / `free` / `summary`） | ⬜ |
-| `LeakDetector.Core` | ⬜ 空壳 |
+| C++ JSONL 写入（`alloc` / `free` / `summary`） | ✅ |
+| `LeakDetector.Core` | ✅ 模型 + SimpleLeakAnalyzer |
 | `LeakDetector.Parsers` | ⬜ 空壳 |
 | `LeakDetector.Analyzers` | ⬜ 空壳 |
 | `LeakDetector.Reporters` | ⬜ 空壳 |

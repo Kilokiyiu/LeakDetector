@@ -1,0 +1,2 @@
+{"event":"alloc","id":1,"ptr":"0000022411A93D00","size":4,"kind":"new","file":"G:\\3.Projects_Indpnd\\LeakDetector\\LeakDetector\\examples\\simple_leak\\main.cpp","line":7}
+{"event":"summary","id":2,"leak_count":1,"total_leak_bytes":4}
