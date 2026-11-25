@@ -1,6 +1,6 @@
 # 范围与约束
 
-对照 [MISSION.md](../MISSION.md)。HTML 速查：[reference/dev-roadmap.html](../reference/dev-roadmap.html)。
+对照 [MISSION.md](../MISSION.md)。
 
 本文描述**现行产品范围**：已有什么、边界怎么切、明确不做什么。不写分阶段施工表；排期与任务拆分不入库。
 

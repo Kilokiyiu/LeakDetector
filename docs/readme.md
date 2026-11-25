@@ -9,12 +9,7 @@
 | 路径 | 简要说明 |
 |------|----------|
 | [docs/](.) | 项目规格、示例说明、加固指南等 Markdown |
-| [reference/](../reference/) | 架构速查（HTML）：模块边界、契约、运行方式 |
-| [lessons/](../lessons/) | 短课：按 mission 练技能；入口 [lessons/index.html](../lessons/index.html) |
 | [MISSION.md](../MISSION.md) | 学习/演进目标与范围约束 |
-| [RESOURCES.md](../RESOURCES.md) | 外部高信任资料索引 |
-
-若你已经能跑通管线，但不知道怎样读陌生示例、或怎样把方法里的设计迁移到新产品，请按下列顺序阅读学习方法材料：先打开课 [0009](../lessons/0009-learn-unread-code.html) 与速查 [读陌生代码五步](../reference/read-unread-code.html)，再打开课 [0010](../lessons/0010-from-method-to-architecture.html) 与速查 [产品架构梯子](../reference/product-architecture-ladder.html)。
 
 ## docs/ 内文
 
@@ -30,7 +25,7 @@
 ## 当前架构（一句话）
 
 **采集（C++）→ JSONL 契约 → 翻译（Parsers）→ 判断（Core）→ 展示（Reporters）→ 门面（CLI）。**  
-Parsers 不做泄漏判断；CLI 不塞业务算法。细则见 [reference/architecture.html](../reference/architecture.html)、[reference/module-map.html](../reference/module-map.html)。
+Parsers 不做泄漏判断；CLI 不塞业务算法。范围与约束见 [dev-roadmap.md](dev-roadmap.md)；实现细节以仓库源码为准。
 
 ## 现行能力对照
 
