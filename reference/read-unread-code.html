@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>读陌生代码五步 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Reference</div>
+    <h1>读陌生代码五步</h1>
+    <p class="lede">
+      这份速查回答三个问题：它讲什么、何时打开、读完能做什么。
+      它讲的是阅读「不是自己写的代码」时的固定顺序。
+      当你在示例或仓库里遇到陌生 API，需要快速建立正确心智模型时打开它。
+      读完后，你应当能按五步自检，并能用半句话向老师描述卡点。
+      配套短课是
+      <a href="../lessons/0009-learn-unread-code.html">0009</a>。
+    </p>
+  </header>
+
+  <h2>文档、源码和 git 各管什么？</h2>
+  <p>
+    学习材料容易混用三种来源，所以先用一张表划清职责。
+    你先读表，再决定这一轮该打开哪一类材料。
+  </p>
+  <table>
+    <thead><tr><th>材料</th><th>用来做什么</th><th>为什么这样分</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="../docs/README.md">docs / reference</a></td>
+        <td>查架构、边界与契约（地图）</td>
+        <td>先确认「属于哪一区」，避免在错误层级抠细节</td>
+      </tr>
+      <tr>
+        <td>仓库源码</td>
+        <td>查实现细节（工地）</td>
+        <td>只有目标明确时开窗，才不会被 API 淹没</td>
+      </tr>
+      <tr>
+        <td>git 历史</td>
+        <td>查变更流水</td>
+        <td>变更记录不属于架构正文，避免文档变成更新表</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>因此：先用地图定位，再按需要打开工地；不要把架构页当成逐行实现说明书。</p>
+
+  <h2>五步各自要做到什么程度？</h2>
+  <p>
+    下面每一步都给出「做什么」和「怎样算完成」。
+    你可以用完成标准自检，而不是凭感觉说「大概懂了」。
+  </p>
+  <table>
+    <thead>
+      <tr><th>步骤</th><th>做什么</th><th>完成标准</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>钉一个目标</td>
+        <td>能写成「这段在管线里负责 ___」</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>找输入与输出</td>
+        <td>写清吃什么、吐什么；中间允许黑盒</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>带一条真数据</td>
+        <td>指定具体文件、指针或事件，而不是空想</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>先预测，再运行</td>
+        <td>有书面预测；对不上才打开下一层源码</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>用人话讲一句</td>
+        <td>合上材料仍能讲；讲不出的点即提问点</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    第 4 步要求先预测，是因为「程序跑通了」并不等于「模型正确」；
+    对照失败才能暴露错误假设。
+  </p>
+
+  <h2>开窗时优先顺序是什么？</h2>
+  <p>当你必须深入实现时，按下表优先级开窗，这样成本最低。</p>
+  <ol>
+    <li>先打开模块地图或架构页，确认边界与「绝不做什么」。</li>
+    <li>从已知结果（报告或退出码）往回追到相关源码。</li>
+    <li>只改一个预期会改变输出的地方，做小实验验证理解。</li>
+    <li>若要长期记住，合上代码重写「名字 + 输入 + 输出」，而不是抄全文。</li>
+  </ol>
+  <p>这个顺序把「确认职责」放在「抠 API」之前，所以更符合存储强度而不是假流畅。</p>
+
+  <h2>哪些做法应当避免？</h2>
+  <p>下列做法看起来勤奋，但会拖慢真正理解，因此默认不要做。</p>
+  <ul>
+    <li>把文档当作实现说明书，试图背下每一行。</li>
+    <li>第一次见面就查清每个陌生 API 的全部重载。</li>
+    <li>只说「看不懂」，却不肯给出自己当前的半句理解。</li>
+  </ul>
+  <p>避免它们，是为了把有限注意力用在边界、契约与可验证的预测上。</p>
+
+  <h2>向老师提问时可以用什么模板？</h2>
+  <p>把模板填完整再发问，老师才能只澄清你真正卡住的那一点。</p>
+  <pre><code>我以为：……
+按五步走到：输入 ___ → 输出 ___
+卡住：……（预测是 ___，实际是 ___）
+请只澄清这一点。</code></pre>
+  <p>模板强制你先给出模型，所以对话会从「重讲全书」变成「校准一个错误假设」。</p>
+
+  <nav class="links">
+    <a href="../lessons/index.html">学习入口</a>
+    <a href="./module-map.html">模块地图</a>
+    <a href="./product-architecture-ladder.html">架构梯子</a>
+    <a href="../lessons/0009-learn-unread-code.html">课 0009</a>
+  </nav>
+
+  <footer>
+    依据：
+    <a href="https://stackoverflow.blog/2022/08/15/how-to-interrogate-unfamiliar-code/">Stack Overflow Blog</a>
+    与
+    <a href="https://csfoundations.cs.aalto.fi/en/courses/introduction-to-programming-summer-2026/part-1/9-reading-code-you-didnt-write">Aalto · Reading Code You Didn't Write</a>。
+  </footer>
+</main>
+</body>
+</html>

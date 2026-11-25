@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>架构与原理 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Reference</div>
+    <h1>架构与原理</h1>
+    <p class="lede">
+      当前系统怎么分层、中间契约是什么。实现细节打开仓库源码；
+      导航见 <a href="../docs/README.md">docs/README.md</a>。
+    </p>
+  </header>
+
+  <nav class="links">
+    <a href="./module-map.html">模块地图</a>
+    <a href="./jsonl-and-parsing.html">JSONL 与解析</a>
+    <a href="./csharp-analysis.html">C# 分析</a>
+    <a href="./how-to-run.html">怎么运行</a>
+  </nav>
+
+  <h2>一句话</h2>
+  <p>
+    <strong>在 C++ 进程内盯住 new/delete 并记账</strong>；
+    可选写出 JSONL，由 <strong>C# 管线翻译并再配对</strong>，报告「分配了却未释放」的块。
+  </p>
+
+  <h2>为什么两段式</h2>
+  <ul>
+    <li><strong>C++ 侧</strong>必须与被测程序同进程，才能拦截分配。</li>
+    <li><strong>C# 侧</strong>承担解析、分析、测试与 CLI，不与每个 example 强链接。</li>
+    <li>中间用 <strong>JSONL 文件</strong>作稳定契约：一边写、一边读。</li>
+  </ul>
+
+  <div class="flow">
+    <div>被测 C++：<code>new</code> / <code>delete</code></div>
+    <div class="arrow">↓ 插桩记账（可选写 JSONL）</div>
+    <div>契约文件：alloc / free / summary 行</div>
+    <div class="arrow">↓</div>
+    <div>C#：翻译 → 判断 → 展示 → CLI 退出码</div>
+  </div>
+
+  <h2>核心架构思想</h2>
+  <h3>档案卡</h3>
+  <p>
+    分配建卡、释放销卡、结束扫表。表中剩余即<strong>确定泄漏</strong>。
+    与 Valgrind 类工具的「chunk 账本」同族；本项目是教学向轻量实现（无红区/影子内存）。
+    对照笔记：<a href="../docs/mc_include.md">docs/mc_include.md</a>。
+  </p>
+
+  <h3>拦截如何带上位置信息</h3>
+  <p>
+    通过宏把 <code>new</code> 展开为带文件名/行号的形式，再进入重载的分配函数。
+    展开与 <code>#undef</code> 细节见 <code>include/leak_detector.*</code>；
+    背景阅读
+    <a href="https://learn.microsoft.com/en-us/cpp/cpp/new-operator-cpp?view=msvc-170">Microsoft Learn: new operator</a>。
+  </p>
+
+  <h3>C# 再算一遍</h3>
+  <p>
+    不读 C++ 进程内表。解析 JSONL 为事件后，用同一套「live 字典」算法配对。
+    <code>summary</code> 行不参与裁判。算法速查：
+    <a href="./csharp-analysis.html">C# 分析</a>。
+  </p>
+
+  <h2>运行期配置（C++）</h2>
+  <table>
+    <thead><tr><th>变量</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>LEAK_DETECTOR_MODE</code></td>
+        <td><code>console</code>（默认）/ <code>log</code> / <code>both</code></td>
+      </tr>
+      <tr>
+        <td><code>LEAK_DETECTOR_LOG_PATH</code></td>
+        <td>设置路径则写出 JSONL</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>能力边界</h2>
+  <ul>
+    <li>插桩账本 + C# 管线：现行主路径</li>
+    <li>系统内存观测：未实现；与插桩采集分层（见 <a href="./dev-roadmap.html">范围与约束</a>）</li>
+  </ul>
+
+  <footer>
+    模块职责表：<a href="./module-map.html">模块地图</a>。
+  </footer>
+</main>
+</body>
+</html>

@@ -18,4 +18,11 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\LeakDetector.CLI\LeakDetector.CLI.csproj"/>
+        <ProjectReference Include="..\LeakDetector.Core\LeakDetector.Core.csproj"/>
+        <ProjectReference Include="..\LeakDetector.Parsers\LeakDetector.Parsers.csproj"/>
+        <ProjectReference Include="..\LeakDetector.Reporters\LeakDetector.Reporters.csproj"/>
+    </ItemGroup>
+
 </Project>

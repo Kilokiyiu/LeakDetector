@@ -7,4 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\LeakDetector.Analyzers\LeakDetector.Analyzers.csproj"/>
+        <ProjectReference Include="..\LeakDetector.Reporters\LeakDetector.Reporters.csproj"/>
+    </ItemGroup>
+
 </Project>

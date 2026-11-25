@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>交接：C++ 之后 C# 怎么分析 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0008</div>
+    <h1>C++ 采完之后，C# 怎么分析？</h1>
+    <p class="lede">
+      专练交接：磁盘上的 JSONL → 翻译 → 配对 → 报告。
+      速查：<a href="../reference/csharp-analysis.html">C# 分析</a>。
+    </p>
+  </header>
+
+  <h2>先钉死一件事</h2>
+  <p>
+    C# <strong>不进入</strong> C++ 进程，也<strong>不读</strong>进程内分配表。
+    唯一交接物是 JSONL 文件（
+    <a href="https://jsonlines.org/">JSON Lines</a>）。
+  </p>
+  <div class="flow">
+    <div>C++：拦截 → 写 alloc/free → 结束写 summary</div>
+    <div class="arrow">↓ 文件路径</div>
+    <div>C#：翻译事件 → live 配对 → 打印报告 + 退出码</div>
+  </div>
+
+  <h2>CLI 门面</h2>
+  <pre><code>dotnet run --project src/LeakDetector.CLI -- analyze testdata/sample_events.jsonl</code></pre>
+  <ol>
+    <li>校验参数与文件</li>
+    <li>拿到分析报告</li>
+    <li>打印；按泄漏计数设退出码</li>
+  </ol>
+  <p>串联细节见 Analyzers / CLI 源码。</p>
+
+  <h2>翻译 vs 判断</h2>
+  <ul>
+    <li><strong>Parsers</strong>：行 → 强类型事件；<strong>不判泄漏</strong></li>
+    <li><strong>Core</strong>：与 C++ 同构的档案卡算法——分配入 live、释放出 live、忽略 summary；剩余 = 确定泄漏</li>
+    <li><strong>Reporters</strong>：只展示报告</li>
+  </ul>
+
+  <h2>动手：跟样例走 live</h2>
+  <p>
+    <code>testdata/sample_events.jsonl</code>：alloc + summary（无 free）→ 应剩 1 条泄漏。
+    点「下一步」观察 live 变化。
+  </p>
+
+  <div
+    class="live-sim"
+    data-caption="样例 A：有泄漏（sample_events.jsonl）"
+    data-events='[
+      {"type":"alloc","ptr":"0x…D5E0","size":4,"file":"main.cpp","line":7},
+      {"type":"summary","leak_count":1}
+    ]'></div>
+
+  <div
+    class="live-sim"
+    data-caption="样例 B：无泄漏（sample_no_leak.jsonl）"
+    data-events='[
+      {"type":"alloc","ptr":"0x…D5E0","size":4,"file":"main.cpp","line":7},
+      {"type":"free","ptr":"0x…D5E0"},
+      {"type":"summary","leak_count":0}
+    ]'></div>
+
+  <div class="warn">
+    即使改 summary 的 leak_count，分析结论仍只看 live。summary 是旁证，不是裁判。
+  </div>
+
+  <div class="quiz" data-ok="对：中间契约是文件。" data-bad="C# 碰不到进程内表。">
+    <strong>1.</strong>C++ 采完后，C# 靠什么接到数据？
+    <button type="button" data-correct="false">直接读取 C++ 进程里的分配表</button>
+    <button type="button" data-correct="true">打开磁盘上的 JSONL 日志文件</button>
+    <button type="button" data-correct="false">通过共享内存段实时订阅事件</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：summary 不参与配对。" data-bad="再看分析算法。">
+    <strong>2.</strong>分析器遇到 summary 事件时做什么？
+    <button type="button" data-correct="false">用其中的 leak_count 覆盖最终结论</button>
+    <button type="button" data-correct="true">直接跳过，继续处理后续事件</button>
+    <button type="button" data-correct="false">把它追加进泄漏列表当作证据</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：剩下的就是泄漏。" data-bad="想想档案卡何时销掉。">
+    <strong>3.</strong>全部事件处理完后，泄漏是什么？
+    <button type="button" data-correct="false">所有曾经出现过的分配事件全集</button>
+    <button type="button" data-correct="true">仍留在 live 集合里的分配条目</button>
+    <button type="button" data-correct="false">JSONL 文件里 summary 行的原文</button>
+    <div class="feedback"></div>
+  </div>
+
+  <nav class="links">
+    <a href="./0005-csharp-pipeline.html">← C# 管线</a>
+    <a href="./0003-cpp-side.html">C++ 拦截</a>
+    <a href="../reference/csharp-analysis.html">分析速查</a>
+    <a href="../reference/module-map.html">模块地图</a>
+  </nav>
+
+  <footer>
+    权威实现：Core 分析器与 Analyzers 胶水（见源码路径）。
+    不清楚就问——用一句话说出你现在的理解。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/live-dict.js"></script>
+</body>
+</html>

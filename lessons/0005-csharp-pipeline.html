@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C# 管线 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0005</div>
+    <h1>C# 管线：从文件到报告</h1>
+    <p class="lede">
+      对照 <a href="../reference/module-map.html">模块地图</a>、
+      <a href="../reference/how-to-run.html">怎么运行</a>。
+    </p>
+  </header>
+
+  <h2>职责链</h2>
+  <div class="flow">
+    <div>CLI：参数、退出码</div>
+    <div class="arrow">↓</div>
+    <div>Analyzers：串联翻译与判断</div>
+    <div class="arrow">↓</div>
+    <div>Parsers：行 → 事件（不判泄漏）</div>
+    <div class="arrow">↓</div>
+    <div>Core：live 配对 → 报告</div>
+    <div class="arrow">↓</div>
+    <div>Reporters：只展示</div>
+  </div>
+  <p>类型与方法名见 <code>src/LeakDetector.*</code>。演示命令：</p>
+  <pre><code>dotnet run --project src/LeakDetector.CLI -- analyze testdata/sample_events.jsonl</code></pre>
+
+  <h2>分析器算法（架构）</h2>
+  <ul>
+    <li>见分配：写入 live</li>
+    <li>见释放：从 live 删除；删不到则计未知 free</li>
+    <li>见摘要：忽略</li>
+    <li>结束：live 剩余 = <strong>确定泄漏</strong></li>
+  </ul>
+
+  <div class="quiz" data-ok="对：Analyzers 是胶水层。" data-bad="打开模块地图 Analyzers 行。">
+    <strong>1.</strong>Analyzers 服务当前主要职责是？
+    <button type="button" data-correct="false">直接用正则从二进制里挖指针</button>
+    <button type="button" data-correct="true">把解析器和分析器串成一次分析</button>
+    <button type="button" data-correct="false">负责把报告渲染成彩色 HTML 页面</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：配对靠 live。" data-bad="再读分析算法。">
+    <strong>2.</strong>判定泄漏的依据是？
+    <button type="button" data-correct="false">只看 summary.leak_count 是否大于零</button>
+    <button type="button" data-correct="true">处理完后仍留在 live 集合里的分配</button>
+    <button type="button" data-correct="false">比较文件大小是否超过固定阈值</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：Reporter 只负责展示。" data-bad="回忆分层。">
+    <strong>3.</strong>Reporter 应该接收什么作为输入？
+    <button type="button" data-correct="true">已经算好的分析报告对象</button>
+    <button type="button" data-correct="false">原始 .jsonl 文件路径字符串</button>
+    <button type="button" data-correct="false">尚未解析的 JSON 文档根节点</button>
+    <div class="feedback"></div>
+  </div>
+
+  <nav class="links">
+    <a href="./0004-json-parsing.html">← JSONL</a>
+    <a href="./0008-cpp-to-csharp-analysis.html">交接分析 →</a>
+    <a href="../reference/csharp-analysis.html">分析速查</a>
+    <a href="../reference/cli-contract.html">CLI 契约</a>
+  </nav>
+
+  <footer>
+    交接细节优先课 <a href="./0008-cpp-to-csharp-analysis.html">0008</a>；
+    门面契约练习见 <a href="./0006-four-bugs.html">0006</a>。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

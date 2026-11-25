@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>范围与边界 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0007</div>
+    <h1>现行范围与边界</h1>
+    <p class="lede">
+      能说出：已有什么、两层采集为何分开、明确不做什么。
+      全文：<a href="../reference/dev-roadmap.html">范围与约束</a>。
+    </p>
+  </header>
+
+  <h2>技能目标</h2>
+  <p>对照 <a href="../MISSION.md">MISSION.md</a>，用现行决策说话——不背施工阶段名。</p>
+
+  <h2>已有 vs 分层</h2>
+  <div class="flow">
+    <div><strong>已有</strong>：插桩账本 + JSONL + C# 管线 → <em>确定泄漏</em></div>
+    <div class="arrow">↓ 采集 API 必须分开</div>
+    <div><strong>观测（若做）</strong>：主机/进程指标 → <em>疑似 / 超阈值</em></div>
+  </div>
+
+  <div class="note">
+    分析 / 报告 / CLI 外壳可复用；不要把两种采集揉成一种 Event。
+  </div>
+
+  <h2>门面契约（演示）</h2>
+  <pre><code>dotnet run --project src/LeakDetector.CLI -- analyze testdata/sample_events.jsonl
+# 退出码 1 = 确定泄漏
+
+dotnet run --project src/LeakDetector.CLI -- analyze testdata/sample_no_leak.jsonl
+# 退出码 0 = 无泄漏</code></pre>
+  <p>完整退出码表：<a href="../reference/cli-contract.html">CLI 契约</a>。</p>
+
+  <div class="quiz" data-ok="对：用语必须分开。" data-bad="对照范围文档用语表。">
+    <strong>1.</strong>系统内存指标超阈值时，报告里应怎么说？
+    <button type="button" data-correct="true">疑似异常或超阈值切勿写成确定泄漏</button>
+    <button type="button" data-correct="false">确定泄漏并打印某次分配的文件行</button>
+    <button type="button" data-correct="false">与日志分配事件硬共用同一套字段</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：采集必须分开。" data-bad="重读 MISSION 约束。">
+    <strong>2.</strong>开系统观测时，最重要的设计约束是？
+    <button type="button" data-correct="false">删掉现有插桩只保留系统采样方案</button>
+    <button type="button" data-correct="false">把两种采集硬揉成同一种事件接口</button>
+    <button type="button" data-correct="true">采集层分开并尽量复用分析报告壳</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：近期不做 GUI。" data-bad="见范围文档「明确不做」。">
+    <strong>3.</strong>关于图形界面，现行决策是？
+    <button type="button" data-correct="false">与观测同时开工并作为主交付</button>
+    <button type="button" data-correct="true">不做；CLI 与控制台报告已够演示</button>
+    <button type="button" data-correct="false">必须先做完整运维大屏再谈契约</button>
+    <div class="feedback"></div>
+  </div>
+
+  <nav class="links">
+    <a href="./index.html">学习入口</a>
+    <a href="../reference/dev-roadmap.html">范围与约束</a>
+    <a href="../docs/README.md">文档导航</a>
+    <a href="./0010-from-method-to-architecture.html">方法到架构</a>
+  </nav>
+
+  <footer>
+    主来源：仓库 <a href="../MISSION.md">MISSION.md</a> 与
+    <a href="../docs/dev-roadmap.md">docs/dev-roadmap.md</a>。
+    不清楚就问——说出你对「两层采集」的半句理解。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

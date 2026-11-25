@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>范围与约束 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Reference</div>
+    <h1>范围与约束</h1>
+    <p class="lede">
+      现行能力与边界。对照
+      <a href="../MISSION.md">MISSION.md</a>；
+      Markdown：<a href="../docs/dev-roadmap.md">docs/dev-roadmap.md</a>。
+      不写分阶段施工表。
+    </p>
+  </header>
+
+  <nav class="links">
+    <a href="./architecture.html">架构与原理</a>
+    <a href="./cli-contract.html">CLI 契约</a>
+    <a href="./module-map.html">模块地图</a>
+    <a href="../docs/README.md">文档导航</a>
+  </nav>
+
+  <h2>已有能力</h2>
+  <div class="flow">
+    <div>C++ 拦截 + 控制台报告 + 可选 JSONL</div>
+    <div class="arrow">↓</div>
+    <div>C#：Parsers → Analyzer → Reporter → CLI</div>
+  </div>
+  <p>插桩账本结论用语：<strong>确定泄漏</strong>。</p>
+
+  <h2>架构约束</h2>
+  <table>
+    <thead><tr><th>约束</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>两层采集分开</td>
+        <td>进程插桩 vs 主机/进程观测；不共用一种 Event</td>
+      </tr>
+      <tr>
+        <td>外壳可复用</td>
+        <td>分析 / 报告 / CLI 可服务不同采集</td>
+      </tr>
+      <tr>
+        <td>用语分开</td>
+        <td>观测侧：疑似泄漏 / 超阈值；不冒充 file:line 确定泄漏</td>
+      </tr>
+      <tr>
+        <td>文档写架构</td>
+        <td>实现细节到源码；文档不作变更流水</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>观测（若做）</h2>
+  <ul>
+    <li>契约与 alloc/free JSONL 不同</li>
+    <li>报告外壳可复用</li>
+    <li>告警只说疑似 / 超阈值</li>
+  </ul>
+
+  <h2>明确不做</h2>
+  <ul>
+    <li>GUI</li>
+    <li>整机 Agent、分布式、完整 APM</li>
+    <li>反射扫内存当主方案</li>
+    <li>移植 Valgrind 内部实现</li>
+    <li>插桩与 OS 指标揉成一种万能 Event</li>
+  </ul>
+
+  <footer>
+    导航总入口：<a href="../docs/README.md">docs/README.md</a>。
+  </footer>
+</main>
+</body>
+</html>

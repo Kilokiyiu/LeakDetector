@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C# 分析 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Reference</div>
+    <h1>C# 分析</h1>
+    <p class="lede">
+      读 → 译 → 配对 → 报告。练习课：
+      <a href="../lessons/0008-cpp-to-csharp-analysis.html">0008</a>。
+    </p>
+  </header>
+
+  <nav class="links">
+    <a href="./architecture.html">架构</a>
+    <a href="./module-map.html">模块地图</a>
+    <a href="./jsonl-and-parsing.html">JSONL</a>
+    <a href="./cli-contract.html">CLI 契约</a>
+  </nav>
+
+  <h2>交接边界</h2>
+  <table>
+    <thead><tr><th>侧</th><th>手里有什么</th><th>交给对面</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>C++</td>
+        <td>进程内分配表 + 可选控制台报告</td>
+        <td><code>.jsonl</code></td>
+      </tr>
+      <tr>
+        <td>C#</td>
+        <td>文件路径</td>
+        <td>分析报告 → 文本 + 退出码</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>两边<strong>不共享</strong>进程内表。C# 用日志把账本重算一遍。</p>
+
+  <h2>职责链</h2>
+  <div class="flow">
+    <div>CLI：路径与退出码</div>
+    <div class="arrow">↓</div>
+    <div>Analyzers：串联翻译与判断</div>
+    <div class="arrow">↓</div>
+    <div>Parsers：行 → 事件</div>
+    <div class="arrow">↓</div>
+    <div>Core：配对 → 报告</div>
+    <div class="arrow">↓</div>
+    <div>Reporters：展示</div>
+  </div>
+
+  <h2>配对算法</h2>
+  <pre><code>live = 空集合
+foreach 事件（按序）:
+  alloc → 放入 live
+  free  → 从 live 删除；删不到则未知 free++
+  summary → 忽略
+确定泄漏 = live 里剩下的</code></pre>
+    <p>与 C++ 扫表同构、不同舞台。实现：<code>src/LeakDetector.Core/</code>。</p>
+
+  <h2>样例</h2>
+  <table>
+    <thead><tr><th>文件</th><th>序列</th><th>结论</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>sample_events.jsonl</code></td>
+        <td>alloc → summary</td>
+        <td>1 条确定泄漏</td>
+      </tr>
+      <tr>
+        <td><code>sample_no_leak.jsonl</code></td>
+        <td>alloc → free → summary</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>谁信谁</h2>
+  <ul>
+    <li><strong>裁判</strong>：C# live 扫完的结果</li>
+    <li><strong>旁证</strong>：JSONL 的 summary（解析保留，分析忽略）</li>
+    <li><strong>C++ 控制台</strong>：进程内当时扫表；应与 C# 一致，但是另一舞台</li>
+  </ul>
+
+  <h2>别越界</h2>
+  <ul>
+    <li>Parsers 不说有没有泄漏</li>
+    <li>Core 不读文件、不打印</li>
+    <li>Analyzers 不重写配对</li>
+    <li>Reporters 不解析 JSON</li>
+  </ul>
+
+  <footer>
+    有歧义以源码为准。卡住打开课 0008 的模拟器。
+  </footer>
+</main>
+</body>
+</html>

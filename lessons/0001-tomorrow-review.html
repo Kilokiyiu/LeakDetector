@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>复习路线 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0001</div>
+    <h1>复习路线</h1>
+    <p class="lede">
+      目标：能自己把项目讲顺。先读 reference（架构），再用短课自测。
+      总入口：<a href="./index.html">学习入口</a>。
+    </p>
+  </header>
+
+  <h2>建议节奏（约 45–60 分钟）</h2>
+  <ol>
+    <li>
+      <strong>全景</strong> —
+      <a href="../reference/architecture.html">架构</a> →
+      <a href="./0002-big-picture.html">短课自测</a>
+    </li>
+    <li>
+      <strong>怎么跑</strong> —
+      <a href="../reference/how-to-run.html">怎么运行</a>；
+      用 <code>testdata</code> 跑一次 CLI
+    </li>
+    <li>
+      <strong>契约</strong> —
+      <a href="../reference/jsonl-and-parsing.html">JSONL</a> →
+      <a href="./0004-json-parsing.html">短课</a>
+    </li>
+    <li>
+      <strong>模块与交接</strong> —
+      <a href="../reference/module-map.html">模块地图</a>、
+      <a href="../reference/csharp-analysis.html">C# 分析</a>；
+      课 <a href="./0003-cpp-side.html">0003</a> /
+      <a href="./0005-csharp-pipeline.html">0005</a> /
+      <a href="./0008-cpp-to-csharp-analysis.html">0008</a>
+    </li>
+    <li>
+      <strong>门面契约</strong> —
+      <a href="../reference/cli-contract.html">CLI 契约</a> →
+      <a href="./0006-four-bugs.html">诊断练习</a>
+    </li>
+    <li>
+      <strong>范围</strong> —
+      <a href="../reference/dev-roadmap.html">范围与约束</a> →
+      <a href="./0007-next-build.html">短课</a>
+    </li>
+    <li>
+      <strong>怎么学更深</strong> —
+      <a href="./0009-learn-unread-code.html">0009</a>、
+      <a href="./0010-from-method-to-architecture.html">0010</a>
+    </li>
+  </ol>
+
+  <div class="ok">
+    <strong>验收（对照 MISSION）：</strong>
+    能说出流水线阶段；能说明档案卡如何变成泄漏报告；能分清 Parsers 与 Analyzer。
+  </div>
+
+  <div class="quiz" data-ok="对：先拦截写日志，再解析分析。" data-bad="再看架构页的流水线。">
+    <strong>热身：</strong>这个项目最准确的一句话是？
+    <button type="button" data-correct="false">只在 C# 里用反射扫描内存找泄漏</button>
+    <button type="button" data-correct="true">C++ 拦截分配写日志，C# 再读日志配对</button>
+    <button type="button" data-correct="false">只用 JSON 配置文件静态检查源码泄漏</button>
+    <div class="feedback"></div>
+  </div>
+
+  <nav class="links">
+    <a href="./index.html">学习入口</a>
+    <a href="../docs/README.md">文档导航</a>
+    <a href="../MISSION.md">MISSION</a>
+  </nav>
+
+  <footer>
+    文档是地图，源码是工地。看不懂就把半句理解发给老师。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

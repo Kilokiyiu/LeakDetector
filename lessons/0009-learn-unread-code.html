@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>没写过的示例代码怎么学 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0009</div>
+    <h1>示例代码里有很多我没写过的——怎么学最快？</h1>
+    <p class="lede">
+      这篇讲的是：当你面对不是自己亲手写下的示例代码时，应该用什么顺序去理解它。
+      你在阅读老师给的样例、或打开仓库里某个陌生文件时需要读它。
+      读完之后，你应当能对任意一小段代码说出「它在管线里负责什么」，并且知道下一扇该打开的窗口是文档还是源码。
+      复习时请对照速查页
+      <a href="../reference/read-unread-code.html">读陌生代码五步</a>。
+    </p>
+  </header>
+
+  <h2>文档和源码分别扮演什么角色？</h2>
+  <p>
+    这里先引入一个比喻。
+    <strong>地图</strong>告诉你城市有哪些区、主干道怎么连；
+    <strong>工地</strong>才是某一栋楼里的钢筋和电线。
+  </p>
+  <p>
+    在本项目里，<code>docs/</code> 与 <code>reference/</code> 是地图：它们描述现行架构、模块边界和交接契约。
+    仓库源码是工地：它们承载具体 API 调用与分支细节。
+    你应当先看地图确认「这段代码属于哪一区」，再按需要打开工地里的一扇窗；
+    不要把架构文档当成逐行实现说明书，也不要把文档写成变更流水（变更历史由 git 承担）。
+    总导航在
+    <a href="../docs/README.md">docs/README.md</a>。
+  </p>
+
+  <h2>为什么不能从上到下「看懂每个词」？</h2>
+  <p>
+    很多人看到陌生 API（例如 JSON 解析相关类型）时，会本能地从文件第一行读到最后一行，并试图记住每一个符号。
+    这种做法很快会占满工作记忆，还会制造「好像看过了」的假熟练，却说不清这段代码在整条管线里的职责。
+  </p>
+  <p>
+    更稳妥的默认策略叫做<strong>先当黑盒，再开一扇窗</strong>。
+    黑盒的意思是：暂时只关心这段东西吃什么、吐什么，而不打开内部的每一个齿轮。
+    你这样做，是为了把注意力留给当前真正要回答的那一个问题，而不是同时学习整本库手册。
+  </p>
+
+  <h2>五步循环具体怎么走？</h2>
+  <p>
+    下面五步构成一个可重复的小循环。
+    每一步都有明确的完成标准，所以你可以自检「这一步有没有做完」。
+  </p>
+  <div class="flow">
+    <div><strong>1. 钉一个目标</strong>：只问「这段在管线里负责什么？」</div>
+    <div class="arrow">↓</div>
+    <div><strong>2. 找输入与输出</strong>：写清吃什么、吐什么；中间先保持黑盒</div>
+    <div class="arrow">↓</div>
+    <div><strong>3. 带一条真数据</strong>：例如使用 <code>testdata/sample_events.jsonl</code></div>
+    <div class="arrow">↓</div>
+    <div><strong>4. 先预测，再运行</strong>：预测对不上时，才打开源码的下一层</div>
+    <div class="arrow">↓</div>
+    <div><strong>5. 用人话讲一句</strong>：讲不出来的那一点，就是该向老师提问的点</div>
+  </div>
+  <p>
+    你做第 4 步时必须先写出预测，是因为「跑通」本身不能证明理解；
+    只有预测与结果对照，才能暴露你脑子里的错误模型。
+    这套流程与
+    <a href="https://stackoverflow.blog/2022/08/15/how-to-interrogate-unfamiliar-code/">How to interrogate unfamiliar code</a>
+    以及
+    <a href="https://csfoundations.cs.aalto.fi/en/courses/introduction-to-programming-summer-2026/part-1/9-reading-code-you-didnt-write">Reading Code You Didn't Write（Aalto）</a>
+    中的建议一致：先扫轮廓与输入输出，再用具体输入追踪，最后用人话解释。
+  </p>
+
+  <h2>在本仓库里怎样练一遍？</h2>
+  <p>
+    假设你的目标是弄清：CLI 拿到一个 JSONL 路径之后，如何变成一份泄漏报告。
+    从架构上看，中间至少有两段职责，可以先画成黑盒链条如下。
+  </p>
+  <div class="flow">
+    <div>文件路径 → 翻译成事件列表</div>
+    <div class="arrow">↓</div>
+    <div>事件列表 → 分析报告</div>
+  </div>
+  <p>按五步填写时，可以写成下面这样（这是职责层的答案，不是要背诵的实现清单）：</p>
+  <ol>
+    <li><strong>目标</strong>：解释路径如何变成报告。</li>
+    <li><strong>输入与输出</strong>：输入是路径；输出是报告；两段中间各自可暂时黑盒。</li>
+    <li><strong>真数据</strong>：使用 <code>testdata/sample_events.jsonl</code>（含一次分配与一次摘要，没有释放）。</li>
+    <li><strong>预测</strong>：翻译阶段应得到事件列表；分析阶段泄漏计数应为 1。</li>
+    <li><strong>人话</strong>：系统先把日志翻译成事件，再按指针配对；翻译步骤本身不判断泄漏。</li>
+  </ol>
+  <div class="note">
+    在这一轮练习里，你还不需要弄懂具体 JSON API 的每一个重载。
+    只要你能诚实地说出「翻译步骤吃路径、吐事件列表」，黑盒就已经够用。
+    只有当你要改解析逻辑，或者第 4 步的预测连续失败时，才打开
+    <code>src/LeakDetector.Parsers</code> 去看实现。
+  </div>
+
+  <h2>怎样自测有没有学会？</h2>
+  <p>请先合上上面的叙述，再回答下列选择题。选项字数接近，避免靠长短猜答案。</p>
+
+  <div class="quiz" data-ok="对：先钉输入输出，才能决定下一扇窗。" data-bad="想想哪一步最贴近「这段负责什么」。">
+    <strong>1.</strong>面对一段没写过的示例，最先做哪件事？
+    <button type="button" data-correct="false">先查清每个陌生 API 的全部重载</button>
+    <button type="button" data-correct="true">先钉死本段在管线里的输入输出</button>
+    <button type="button" data-correct="false">先把整文件从上到下抄进笔记</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：文档用来确认边界与契约。" data-bad="回忆「地图与工地」的分工。">
+    <strong>2.</strong>架构文档最适合用来做什么？
+    <button type="button" data-correct="false">代替源码背下每一行实现</button>
+    <button type="button" data-correct="true">确认边界与契约再决定开哪扇窗</button>
+    <button type="button" data-correct="false">当作变更流水记录每次修改</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：半句当前理解最能缩小范围。" data-bad="想想老师缺的是什么信息。">
+    <strong>3.</strong>向老师提问时，哪种信息最值钱？
+    <button type="button" data-correct="false">只说文件名并要求完整重讲一遍</button>
+    <button type="button" data-correct="true">说出你现在的半句理解与卡点</button>
+    <button type="button" data-correct="false">先道歉说自己基础差再停住</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h2>读完之后你应当记住什么？</h2>
+  <p>
+    「没亲手写过」并不意味着你必须逐行啃完；它只意味着你手上有一张黑盒清单。
+    你先用地图确认边界，再在工地只开一扇窗，并固定走：目标、输入输出、真数据、预测再跑、人话一句。
+    若某一句人话讲不出来，就把那半句理解发给老师，而不是只说「看不懂」。
+  </p>
+
+  <nav class="links">
+    <a href="./index.html">学习入口</a>
+    <a href="./0010-from-method-to-architecture.html">下一课：从方法到架构 →</a>
+    <a href="../reference/read-unread-code.html">五步速查</a>
+    <a href="../reference/module-map.html">模块地图</a>
+  </nav>
+
+  <footer>
+    主来源是上文链接的 Stack Overflow Blog 与 Aalto 课程页。
+    若仍不清楚，请把你按五步走到的半句理解发给老师。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

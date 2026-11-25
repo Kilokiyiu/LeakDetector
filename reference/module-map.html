@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>模块地图 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Reference</div>
+    <h1>模块地图</h1>
+    <p class="lede">
+      按「输入 → 输出 → 绝不做」记边界。类名与调用顺序以源码为准。
+    </p>
+  </header>
+
+  <nav class="links">
+    <a href="./architecture.html">架构与原理</a>
+    <a href="./how-to-run.html">怎么运行</a>
+    <a href="./jsonl-and-parsing.html">JSONL 与解析</a>
+    <a href="./csharp-analysis.html">C# 分析</a>
+  </nav>
+
+  <h2>总表</h2>
+  <table>
+    <thead>
+      <tr><th>模块</th><th>输入</th><th>输出</th><th>绝不做</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>include/ (C++)</strong></td>
+        <td>被测程序的 new/delete</td>
+        <td>内存表 + 控制台报告 + 可选 JSONL</td>
+        <td>复杂报告排版、单元测试框架</td>
+      </tr>
+      <tr>
+        <td><strong>Core</strong></td>
+        <td><code>MemoryEvent</code> 序列</td>
+        <td><code>AnalysisReport</code></td>
+        <td>读文件、写控制台、解析 JSON</td>
+      </tr>
+      <tr>
+        <td><strong>Parsers</strong></td>
+        <td><code>.jsonl</code> 路径</td>
+        <td>事件列表</td>
+        <td>判断有没有泄漏</td>
+      </tr>
+      <tr>
+        <td><strong>Analyzers</strong></td>
+        <td>日志路径</td>
+        <td><code>AnalysisReport</code></td>
+        <td>重新发明配对算法（委托 Core）</td>
+      </tr>
+      <tr>
+        <td><strong>Reporters</strong></td>
+        <td><code>AnalysisReport</code></td>
+        <td>人类可读文本</td>
+        <td>读 JSON、算泄漏</td>
+      </tr>
+      <tr>
+        <td><strong>CLI</strong></td>
+        <td>命令行参数</td>
+        <td>退出码 + 控制台输出</td>
+        <td>塞业务算法</td>
+      </tr>
+      <tr>
+        <td><strong>Tests</strong></td>
+        <td>固定事件 / 样例文件</td>
+        <td>断言结果</td>
+        <td>依赖本机绝对路径</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Core 模型（架构角色）</h2>
+  <ul>
+    <li>事件：分配 / 释放 / 摘要</li>
+    <li>报告：泄漏条目 + 未知 free 等统计</li>
+    <li>分析器：按事件顺序维护 live 集合；忽略摘要事件</li>
+  </ul>
+  <p>类型与方法名见 <code>src/LeakDetector.Core</code>。</p>
+
+  <h2>管线职责链</h2>
+  <div class="flow">
+    <div>CLI：参数与退出码</div>
+    <div class="arrow">↓</div>
+    <div>Analyzers：打开路径，串联翻译与判断</div>
+    <div class="arrow">↓</div>
+    <div>Parsers：行 → 事件（不判泄漏）</div>
+    <div class="arrow">↓</div>
+    <div>Core：配对 → 报告</div>
+    <div class="arrow">↓</div>
+    <div>Reporters：只展示</div>
+  </div>
+
+  <h2>examples</h2>
+  <p>
+    <code>examples/*</code> 是<strong>被测小程序</strong>，不是 C# 解决方案的一部分。
+    C# 只消费其日志或 <code>testdata</code> 人造日志。
+  </p>
+
+  <footer>
+    先记清边界，再打开对应项目里的源码。
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学习入口 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Learning</div>
+    <h1>学习入口</h1>
+    <p class="lede">
+      本页是学习材料的总入口：短课用来练习技能，reference 用来查阅现行架构。
+      说明性文字只描述现行边界与契约；实现细节请打开对应源码。
+      项目文档导航见 <a href="../docs/README.md">docs/README.md</a>。
+    </p>
+  </header>
+
+  <h2>如果你要按顺序复习，该怎么走？</h2>
+  <p>下面按「先能讲清管线，再学读代码与拆产品」排列。每一项都给出课与对应速查，便于你按身份选择：只求演示可跳过 0009/0010，求迁移能力则必须做完后两项。</p>
+  <ol>
+    <li><a href="./0001-tomorrow-review.html">0001 复习路线</a>：怎样把各篇串成一次完整复习。</li>
+    <li><a href="./0002-big-picture.html">0002 全景</a> 与 <a href="../reference/architecture.html">架构速查</a>：项目在解决什么问题。</li>
+    <li><a href="./0003-cpp-side.html">0003 C++ 拦截</a>：采集侧怎样盯住 <code>new</code>。</li>
+    <li><a href="./0004-json-parsing.html">0004 JSONL</a> 与 <a href="../reference/jsonl-and-parsing.html">契约速查</a>：中间交接长什么样。</li>
+    <li><a href="./0005-csharp-pipeline.html">0005 C# 管线</a> 与 <a href="./0008-cpp-to-csharp-analysis.html">0008 交接分析</a>：翻译、判断与展示如何衔接。</li>
+    <li><a href="./0006-four-bugs.html">0006 门面契约诊断</a> 与 <a href="../reference/cli-contract.html">CLI 契约</a>：退出码与症状定位。</li>
+    <li><a href="./0007-next-build.html">0007 范围与边界</a>：现行做什么、明确不做什么。</li>
+    <li><a href="./0009-learn-unread-code.html">0009 读陌生代码</a> 与 <a href="./0010-from-method-to-architecture.html">0010 拆产品</a>：学习方法与可迁移的架构拆法（正文已按完整句子文风重写）。</li>
+  </ol>
+
+  <h2>Reference 速查</h2>
+  <nav class="links">
+    <a href="../reference/architecture.html">架构</a>
+    <a href="../reference/module-map.html">模块地图</a>
+    <a href="../reference/how-to-run.html">怎么运行</a>
+    <a href="../reference/jsonl-and-parsing.html">JSONL</a>
+    <a href="../reference/csharp-analysis.html">C# 分析</a>
+    <a href="../reference/cli-contract.html">CLI 契约</a>
+    <a href="../reference/dev-roadmap.html">范围与约束</a>
+    <a href="../reference/read-unread-code.html">读代码五步</a>
+    <a href="../reference/product-architecture-ladder.html">架构梯子</a>
+  </nav>
+
+  <div class="ok">
+    验收（对照 <a href="../MISSION.md">MISSION</a>）：能演示 JSONL → 报告；能分清模块边界；能讲清档案卡与拦截思路。
+  </div>
+
+  <footer>卡住就把半句当前理解发给老师。</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>从方法到产品架构 — LeakDetector</title>
+  <link rel="stylesheet" href="../assets/lesson.css" />
+</head>
+<body>
+<main>
+  <header class="site">
+    <div class="kicker">Lesson 0010</div>
+    <h1>读懂传递之后：怎么从方法学到「能拆产品」？</h1>
+    <p class="lede">
+      这篇讲的是：在你已经能跟上对象怎么传递之后，怎样从「某个方法怎么跑」继续爬到「换一个产品也能合理拆阶段」。
+      你在想把 LeakDetector 里的翻译步骤学深，或准备日后设计类似管线时需要读它。
+      读完之后，你应当能对一个方法提出五道决策题，并能用五步画出新产品的阶段与契约草图。
+      复习请对照
+      <a href="../reference/product-architecture-ladder.html">产品架构梯子</a>。
+    </p>
+  </header>
+
+  <h2>为什么要把学习分成三层？</h2>
+  <p>
+    如果把「运行细节」「设计理由」「产品拆法」混在同一层学，你会要么陷在 API 手册里，要么空谈架构却对不上仓库里的真实边界。
+    因此本课把问题分成三层，每一层只问一类问题，并使用不同材料。
+  </p>
+  <p>下表总结三层各自追问什么，以及你应当打开什么材料。表后还有一句提醒：文档写架构，实现去源码。</p>
+  <table>
+    <thead>
+      <tr><th>层</th><th>你在问什么</th><th>主要材料</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>运行层</strong></td>
+        <td>这一行执行时发生了什么？</td>
+        <td>源码与一条真数据（工地）</td>
+      </tr>
+      <tr>
+        <td><strong>决策层</strong></td>
+        <td>为什么这样切边界？失败时为什么抛错？</td>
+        <td>架构文档与五道决策题</td>
+      </tr>
+      <tr>
+        <td><strong>产品层</strong></td>
+        <td>若换一个产品，阶段与契约如何画？</td>
+        <td>拆产品五步；细节仍回到源码验证</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">
+    本仓库的说明性文档只描述现行架构与决策，不把文档写成实现说明书，也不保留已作废决策或临时 phase 施工表。
+    导航入口见
+    <a href="../docs/README.md">docs/README.md</a>。
+  </div>
+
+  <h2>怎样用「翻译一步」练习决策层？</h2>
+  <p>
+    先看一个具体场景：Parsers 负责把「一行 JSON 日志」变成「一个强类型事件」。
+    你若只停留在运行层，会去背某一个解析 API 的调用顺序；
+    决策层则改问「为什么这样切」，因为这些答案可以迁移到下一个产品。
+  </p>
+  <p>请对翻译步骤依次回答下面五道题。实现细节打开 <code>JsonlEventParser</code> 源码即可，本文不把调用清单当作正文。</p>
+  <ol>
+    <li><strong>边界</strong>：它为什么只产出事件，而绝不计算泄漏？</li>
+    <li><strong>契约</strong>：它依赖日志里的哪些字段名，换名字谁会坏？</li>
+    <li><strong>形状</strong>：它为什么分支成多种事件类型，而不是到处传递一个大字典？</li>
+    <li><strong>失败</strong>：遇到未知事件类型时，为什么选择抛错而不是悄悄跳过？</li>
+    <li><strong>替换</strong>：若明天日志改成 CSV，哪些决策必须保留，哪一段实现可以整体替换？</li>
+  </ol>
+  <p>你可以先自己作答，再对照下面的决策摘要。摘要只保留现行结论与原因。</p>
+  <div class="ok">
+    <ul>
+      <li>
+        <strong>边界</strong>：Parsers 是翻译官，泄漏判断属于分析器，这样改解析格式时不会误伤判定逻辑。
+        详见 <a href="../reference/module-map.html">模块地图</a>。
+      </li>
+      <li>
+        <strong>契约</strong>：C++ 与 C# 共用 JSONL 字段名作为交接面，字段名就是跨语言的稳定协议。
+        详见 <a href="../reference/jsonl-and-parsing.html">JSONL 契约</a>。
+      </li>
+      <li>
+        <strong>形状</strong>：强类型事件让后续配对的意图写在类型上，减少「字符串里藏业务」的错误。
+      </li>
+      <li>
+        <strong>失败</strong>：坏数据尽早抛出，是为了避免静默丢事件造成「明明漏了却报无泄漏」的假阴性。
+      </li>
+      <li>
+        <strong>替换</strong>：保留「行 → 事件」这条边界；只替换翻译实现，分析器与报告器可以不动。
+      </li>
+    </ul>
+  </div>
+  <p>
+    可以把方法看成标本，把上述决策看成标本里真正可带走的器官。
+    Ralph Johnson 有一句被广泛引用的话：架构关乎「重要的东西」——你要识别哪些决策一旦失控就会让系统难改。
+    说明见
+    <a href="https://martinfowler.com/architecture/">Martin Fowler 的 Software Architecture Guide</a>。
+  </p>
+
+  <h2>换一个产品时，怎样拆阶段？</h2>
+  <p>
+    假设你以后要做另一个「读日志 → 下结论 → 给人看」的工具，不必从零发明流程。
+    可以用下面五步先画出骨架，再动手写代码；这样做是为了先锁住边界与契约，避免一上来就堆 API。
+  </p>
+  <div class="flow">
+    <div><strong>1. 一句话工作</strong>：谁、在什么情境下、要得到什么结果</div>
+    <div class="arrow">↓</div>
+    <div><strong>2. 切阶段</strong>：采集 → 翻译 → 判断 → 展示（名称可改，阶段不要揉）</div>
+    <div class="arrow">↓</div>
+    <div><strong>3. 画边界</strong>：写清每阶段必须做什么，以及绝不做什么</div>
+    <div class="arrow">↓</div>
+    <div><strong>4. 写交接契约</strong>：阶段之间传递什么文件、事件或报告对象</div>
+    <div class="arrow">↓</div>
+    <div><strong>5. 最薄竖切</strong>：用一条真数据从头跑到报告，再考虑加固</div>
+  </div>
+  <p>
+    LeakDetector 的现行对照是：C++ 负责采集，JSONL 充当契约，Parsers 翻译，Core 判断，Reporters 展示，CLI 做门面。
+    若日后增加系统内存观测，现行约束要求你先画清阶段与契约，并与插桩采集分开，再去选择平台 API；
+    范围说明见
+    <a href="../reference/dev-roadmap.html">范围与约束</a>。
+  </p>
+
+  <h2>怎样自测有没有迁移能力？</h2>
+  <p>下面用一个相邻产品场景做题。请根据「翻译与判断分开」的原则选择答案。</p>
+
+  <div class="quiz" data-ok="对：Parser 只做结构化翻译。" data-bad="想想谁不该直接做业务判断。">
+    <strong>1.</strong>若产品是「读 Nginx 日志找可疑 IP」，Parser 最该做什么？
+    <button type="button" data-correct="false">读日志并直接判定哪些 IP 可疑</button>
+    <button type="button" data-correct="true">把每行日志变成结构化访问事件</button>
+    <button type="button" data-correct="false">把 Top10 结果格式化成漂亮表格</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：边界与契约通常更「重要」。" data-bad="回忆 JSONL 在本仓库扮演的角色。">
+    <strong>2.</strong>架构上通常更应先保护什么？
+    <button type="button" data-correct="false">某一个库函数的具体重载签名</button>
+    <button type="button" data-correct="true">阶段边界与阶段之间的交接契约</button>
+    <button type="button" data-correct="false">报告里每一行文字的颜色与缩进</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz" data-ok="对：换格式时优先只换翻译实现。" data-bad="回想第五道决策题。">
+    <strong>3.</strong>日志从 JSONL 改成 CSV 时，优先怎么改？
+    <button type="button" data-correct="false">重写分析器与报告器的全部算法</button>
+    <button type="button" data-correct="true">保留事件模型，只替换翻译实现</button>
+    <button type="button" data-correct="false">删掉事件类型改成到处传字符串</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h2>对「翻译一步」接下来可以做什么？</h2>
+  <p>若你已经能回答运行层问题，可以用下面清单继续练存储强度（合上材料再回忆，而不是边看边点头）。</p>
+  <ol>
+    <li>合上材料，默写翻译步骤的输入、输出、分支种类与失败行为。</li>
+    <li>用自己的话回答五道决策题，并对照模块地图，而不是抄实现代码。</li>
+    <li>故意改一个契约字段名做小实验，观察哪一层最先失败，从而感受契约为何重要。</li>
+    <li>按拆产品五步，为「系统内存观测」草绘一版阶段图（可以很糙）。</li>
+  </ol>
+  <p>完成任意一项后，把你的半句结论发给老师，便于对准下一课的难度。</p>
+
+  <nav class="links">
+    <a href="./index.html">学习入口</a>
+    <a href="./0009-learn-unread-code.html">← 读陌生代码</a>
+    <a href="../reference/product-architecture-ladder.html">架构梯子</a>
+    <a href="./0007-next-build.html">范围与边界课</a>
+  </nav>
+
+  <footer>
+    主来源是
+    <a href="https://martinfowler.com/architecture/">Fowler 的 Software Architecture Guide</a>。
+    若某一道决策题卡住，请说出你的半句理解再提问。
+  </footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
